@@ -1,0 +1,253 @@
+{
+  "name": "소셜 콘텐츠 멀티채널 자동 생성",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "소셜 콘텐츠 자동 생성",
+        "formDescription": "주제를 입력하면 인스타·블로그·X 콘텐츠와 대표 이미지를 생성해 플랫폼별 표에 저장합니다.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "주제",
+              "fieldType": "text",
+              "placeholder": "예: 2026년 AI 트렌드",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "톤",
+              "fieldType": "dropdown",
+              "requiredField": true,
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "친근한"
+                  },
+                  {
+                    "option": "전문적인"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5482be64-7328-4277-8348-54a9dfb44a5b",
+      "name": "주제 입력 폼",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "13c48ccc-03c1-4cf0-a2ed-3065839cd35a"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+        "options": {},
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "={{ $env.GEMINI_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ contents: [ { parts: [ { text: `당신은 소셜미디어 카피라이터입니다. 아래 주제로 인스타그램 게시물을 작성하세요. 조건: (1) 캡션은 2~4문장의 짧고 감각적인 한국어 (2) 첫 문장으로 시선을 끌 것 (3) 줄바꿈으로 가독성 확보 (4) 마지막 줄에 관련 해시태그 10개 내외를 한 줄로. 톤앤매너: ${$('주제 입력 폼').first().json['톤']}. 주제: ${$('주제 입력 폼').first().json['주제']}. 캡션과 해시태그만 출력하고 다른 설명은 쓰지 마세요.` } ] } ], generationConfig: { temperature: 0.85, maxOutputTokens: 2048, thinkingConfig: { thinkingBudget: 0 } } }) }}"
+      },
+      "id": "5dd46a8f-5603-4adc-b6cf-5fcce4824df7",
+      "name": "Gemini 인스타그램",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 4000
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+        "options": {},
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "={{ $env.GEMINI_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ contents: [ { parts: [ { text: `당신은 전문 블로거입니다. 아래 주제로 한국어 블로그 글을 작성하세요. 조건: (1) 매력적인 제목을 첫 줄에 (2) 본문 500자 이상 (3) ##로 시작하는 소제목 2~3개로 구조화 (4) 각 섹션은 2~4문장. 톤앤매너: ${$('주제 입력 폼').first().json['톤']}. 주제: ${$('주제 입력 폼').first().json['주제']}. 마크다운으로 출력하세요.` } ] } ], generationConfig: { temperature: 0.85, maxOutputTokens: 2048, thinkingConfig: { thinkingBudget: 0 } } }) }}"
+      },
+      "id": "5b85c8fd-5733-40f9-b156-8b809e6de848",
+      "name": "Gemini 블로그",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 4000
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+        "options": {},
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "={{ $env.GEMINI_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ contents: [ { parts: [ { text: `당신은 카피라이터입니다. 아래 주제를 X(트위터)용으로 요약하세요. 조건: (1) 반드시 280자 이내(한국어 기준) (2) 핵심만 임팩트 있게 (3) 마지막에 해시태그 1~2개. 톤앤매너: ${$('주제 입력 폼').first().json['톤']}. 주제: ${$('주제 입력 폼').first().json['주제']}. 트윗 본문만 출력하세요.` } ] } ], generationConfig: { temperature: 0.85, maxOutputTokens: 2048, thinkingConfig: { thinkingBudget: 0 } } }) }}"
+      },
+      "id": "be78c524-4843-4d76-9721-2586a1788843",
+      "name": "Gemini X",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 4000
+    },
+    {
+      "parameters": {
+        "jsCode": "const topic = $('주제 입력 폼').first().json['주제'];\nconst tone  = $('주제 입력 폼').first().json['톤'] || '친근한';\nconst text  = (n) => $(n).first().json.candidates?.[0]?.content?.parts?.[0]?.text || '';\nconst cut   = (s) => String(s).slice(0, 1900);\nconst imgPrompt = `clean modern vibrant social media hero image about ${topic}, minimal text, professional, high quality`;\nconst imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(imgPrompt)}?width=1024&height=1024&nologo=true&seed=42`;\nreturn [\n  { json: { platform: 'Instagram', topic, tone, body: cut(text('Gemini 인스타그램')), imageUrl } },\n  { json: { platform: 'Blog',      topic, tone, body: cut(text('Gemini 블로그')),     imageUrl } },\n  { json: { platform: 'X',         topic, tone, body: cut(text('Gemini X')),          imageUrl } },\n];"
+      },
+      "id": "2baa17d4-accf-4c26-9c04-5b0c285bb22f",
+      "name": "결과 조립",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.notion.com/v1/pages",
+        "options": {},
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.NOTION_TOKEN }}"
+            },
+            {
+              "name": "Notion-Version",
+              "value": "2022-06-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ parent: { database_id: ($json.platform === 'Instagram' ? $env.NOTION_DB_IG : ($json.platform === 'Blog' ? $env.NOTION_DB_BLOG : $env.NOTION_DB_X)) }, cover: $json.imageUrl ? { type: 'external', external: { url: $json.imageUrl } } : undefined, properties: { '주제': { title: [ { text: { content: $json.topic } } ] }, '톤': { select: { name: $json.tone } }, '본문': { rich_text: [ { text: { content: $json.body } } ] }, '이미지URL': { url: $json.imageUrl || null } } }) }}"
+      },
+      "id": "41c6fe33-d249-40e6-9aa6-3897bbb25289",
+      "name": "Notion 표 저장",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 4000
+    }
+  ],
+  "connections": {
+    "주제 입력 폼": {
+      "main": [
+        [
+          {
+            "node": "Gemini 인스타그램",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini 인스타그램": {
+      "main": [
+        [
+          {
+            "node": "Gemini 블로그",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini 블로그": {
+      "main": [
+        [
+          {
+            "node": "Gemini X",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini X": {
+      "main": [
+        [
+          {
+            "node": "결과 조립",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "결과 조립": {
+      "main": [
+        [
+          {
+            "node": "Notion 표 저장",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}

@@ -1,0 +1,7 @@
+# 진짜 키 — 절대 커밋 금지 (견본은 .env.local.example 만 올림)
+.env.local
+.env
+
+# OS / 에디터
+.DS_Store
+*.log

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 760" font-family="-apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+  <rect x="0" y="0" width="760" height="760" fill="#ffffff"/>
+  <text x="380" y="44" text-anchor="middle" font-size="22" font-weight="700" fill="#1a1a1a">소셜 콘텐츠 멀티채널 자동 생성 · 워크플로우 구조</text>
+  <text x="380" y="70" text-anchor="middle" font-size="13" fill="#888">주제 1개 입력 → 플랫폼별 콘텐츠 + 대표 이미지 자동 생성 → Notion 저장</text>
+
+  <!-- defs: arrow -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#9aa0a6"/>
+    </marker>
+  </defs>
+
+  <!-- Box 1: Form -->
+  <rect x="230" y="92" width="300" height="64" rx="12" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="252" y="123" font-size="16" font-weight="700" fill="#1a1a1a">📝 주제 입력 폼</text>
+  <text x="252" y="143" font-size="12.5" fill="#5f6368">Form Trigger · 주제 + 톤(친근한/전문적인) 입력</text>
+  <line x1="380" y1="156" x2="380" y2="184" stroke="#9aa0a6" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Box 2: Gemini IG -->
+  <rect x="230" y="186" width="300" height="64" rx="12" fill="#e6f4ea" stroke="#34a853" stroke-width="1.5"/>
+  <text x="252" y="217" font-size="16" font-weight="700" fill="#1a1a1a">🤖 Gemini · 인스타그램</text>
+  <text x="252" y="237" font-size="12.5" fill="#5f6368">짧은 캡션 + 해시태그 10개</text>
+  <line x1="380" y1="250" x2="380" y2="278" stroke="#9aa0a6" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Box 3: Gemini Blog -->
+  <rect x="230" y="280" width="300" height="64" rx="12" fill="#e6f4ea" stroke="#34a853" stroke-width="1.5"/>
+  <text x="252" y="311" font-size="16" font-weight="700" fill="#1a1a1a">🤖 Gemini · 블로그</text>
+  <text x="252" y="331" font-size="12.5" fill="#5f6368">제목 + 소제목 + 본문 500자 이상</text>
+  <line x1="380" y1="344" x2="380" y2="372" stroke="#9aa0a6" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Box 4: Gemini X -->
+  <rect x="230" y="374" width="300" height="64" rx="12" fill="#e6f4ea" stroke="#34a853" stroke-width="1.5"/>
+  <text x="252" y="405" font-size="16" font-weight="700" fill="#1a1a1a">🤖 Gemini · X(트위터)</text>
+  <text x="252" y="425" font-size="12.5" fill="#5f6368">280자 이내 요약 + 해시태그</text>
+  <line x1="380" y1="438" x2="380" y2="466" stroke="#9aa0a6" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Box 5: Code -->
+  <rect x="230" y="468" width="300" height="64" rx="12" fill="#f1f3f4" stroke="#9aa0a6" stroke-width="1.5"/>
+  <text x="252" y="499" font-size="16" font-weight="700" fill="#1a1a1a">🧩 결과 조립 (Code)</text>
+  <text x="252" y="519" font-size="12.5" fill="#5f6368">3건 정리 + 무료 이미지 URL(Pollinations)</text>
+  <line x1="380" y1="532" x2="380" y2="560" stroke="#9aa0a6" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Box 6: Notion -->
+  <rect x="230" y="562" width="300" height="64" rx="12" fill="#2b2b2b" stroke="#000" stroke-width="1.5"/>
+  <text x="252" y="593" font-size="16" font-weight="700" fill="#ffffff">🗂️ Notion 저장</text>
+  <text x="252" y="613" font-size="12.5" fill="#cfcfcf">플랫폼별 하위 페이지 생성 (이미지=커버)</text>
+
+  <!-- legend -->
+  <text x="380" y="668" text-anchor="middle" font-size="12" fill="#9aa0a6">A/B 테스트: 톤(친근한/전문적인)만 바꿔 2회 실행 → 6세트 비교</text>
+  <rect x="180" y="690" width="14" height="14" rx="3" fill="#e8f0fe" stroke="#4285f4"/>
+  <text x="200" y="702" font-size="12" fill="#5f6368">입력</text>
+  <rect x="255" y="690" width="14" height="14" rx="3" fill="#e6f4ea" stroke="#34a853"/>
+  <text x="275" y="702" font-size="12" fill="#5f6368">생성 AI(Gemini)</text>
+  <rect x="400" y="690" width="14" height="14" rx="3" fill="#f1f3f4" stroke="#9aa0a6"/>
+  <text x="420" y="702" font-size="12" fill="#5f6368">가공</text>
+  <rect x="470" y="690" width="14" height="14" rx="3" fill="#2b2b2b"/>
+  <text x="490" y="702" font-size="12" fill="#5f6368">저장</text>
+</svg>
